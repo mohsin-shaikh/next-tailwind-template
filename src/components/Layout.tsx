@@ -1,14 +1,19 @@
-import { useCallback, useState } from 'react';
+import { ReactNode, useCallback, useState } from 'react';
 
 // import MenuIcon from 'components/Menu/MenuIcon';
 import Sidebar from 'components/Sidebar';
 import SidebarMobileButton from './SidebarMobileButton';
 
-export default function Layout({ className, children }) {
+type LayoutProps = {
+	className?: string;
+	children: ReactNode;
+}
+
+export default function Layout({ className, children }: LayoutProps) {
 	const [state, setState] = useState({ show: false, overrideClassname: '' });
 
 	const onToggle = useCallback(
-		(isOutsideMenu) => {
+		(isOutsideMenu: boolean) => {
 			setState({ show: !state.show, overrideClassname: isOutsideMenu && !state.show ? 'max-sm:flex' : '' });
 		},
 		[state]

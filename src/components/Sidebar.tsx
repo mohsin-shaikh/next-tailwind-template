@@ -5,6 +5,7 @@ import * as Tooltip from '@radix-ui/react-tooltip';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { shortcuts } from 'constants/Shortcuts';
 import TooltipText from 'components/TooltipText';
+import { signOut, useSession } from 'next-auth/react';
 
 const { sidebar } = shortcuts;
 const sidebarShortcutsList = Object.values(sidebar).map((_) => _.shortcut);
@@ -30,6 +31,8 @@ const links = [
 
 const Sidebar = ({ className, overrideClassname, onHide, show, onToggle }) => {
 	const router = useRouter();
+	const { data: session } = useSession()
+	console.log({ session })
 
 	useHotkeys(sidebarShortcutsList, (_, handler) => {
 		const keys = handler.keys.join('');
@@ -103,7 +106,7 @@ const Sidebar = ({ className, overrideClassname, onHide, show, onToggle }) => {
 					<button
 						className={`mt-2 flex h-[40px] w-full items-center rounded-lg p-2 text-base tracking-wide text-white hover:bg-zinc-800 ${show ? '' : 'justify-center'
 							}`}
-						// onClick={signOut}
+						onClick={() => signOut()}
 						title={'Sign out'}
 					>
 						<div className="flex items-center">
