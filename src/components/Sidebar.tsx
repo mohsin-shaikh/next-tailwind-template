@@ -29,12 +29,21 @@ const links = [
 	},
 ];
 
-const Sidebar = ({ className, overrideClassname, onHide, show, onToggle }) => {
+type SidebarProps = {
+	className: string;
+	overrideClassname: string;
+	onHide: () => void;
+	show: boolean;
+	onToggle: () => void;
+}
+
+const Sidebar = ({ className, overrideClassname, onHide, show, onToggle }: SidebarProps) => {
 	const router = useRouter();
 	const { data: session } = useSession()
 	console.log({ session })
 
 	useHotkeys(sidebarShortcutsList, (_, handler) => {
+		// @ts-expect-error
 		const keys = handler.keys.join('');
 		if (keys === sidebar.dashboard.shortcut) router.push('/admin/dashboard');
 		if (keys === sidebar.users.shortcut) router.push('/admin/users');

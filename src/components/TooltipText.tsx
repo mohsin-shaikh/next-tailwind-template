@@ -1,4 +1,10 @@
-export default function TooltipText({ className, text, shortcut }) {
+type TooltipTextProps = {
+	className: string;
+	text: string;
+	shortcut: string;
+}
+
+export default function TooltipText({ className, text, shortcut }: TooltipTextProps) {
 	return (
 		<p className={`hidden rounded-md bg-zinc-800 p-2 text-xs text-white xs:block ${className}`}>
 			{text}

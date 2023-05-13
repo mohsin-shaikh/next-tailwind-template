@@ -1,6 +1,10 @@
 import { Bars3Icon } from '@heroicons/react/24/solid';
 
-export default function SidebarMobileButton({ onShow }) {
+type SidebarMobileButtonProps = {
+	onShow: () => void;
+}
+
+export default function SidebarMobileButton({ onShow }: SidebarMobileButtonProps) {
 	return (
 		<button
 			onClick={onShow}
