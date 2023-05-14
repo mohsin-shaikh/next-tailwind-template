@@ -5,6 +5,7 @@ import {
 	Bars3Icon,
 	ChartPieIcon,
 	Cog6ToothIcon,
+	PencilIcon,
 	UsersIcon,
 	XMarkIcon
 } from '@heroicons/react/24/solid';
@@ -12,7 +13,7 @@ import * as Tooltip from '@radix-ui/react-tooltip';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { shortcuts } from 'constants/Shortcuts';
 import TooltipText from 'components/TooltipText';
-import { signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 
 const { sidebar } = shortcuts;
 const sidebarShortcutsList = Object.values(sidebar).map((_) => _.shortcut);
@@ -33,6 +34,14 @@ const topLinks = [
 		name: 'Users',
 		Icon: UsersIcon,
 		shortcutText: sidebar.users.shortcut,
+	},
+	{
+		link: '/admin/posts',
+		activePath: '/admin/posts',
+		description: 'Posts Page',
+		name: 'Posts',
+		Icon: PencilIcon,
+		shortcutText: sidebar.posts.shortcut,
 	},
 ];
 
@@ -57,14 +66,13 @@ type SidebarProps = {
 
 const Sidebar = ({ className, overrideClassname, onHide, show, onToggle }: SidebarProps) => {
 	const router = useRouter();
-	const { data: session } = useSession()
-	console.log({ session })
 
 	useHotkeys(sidebarShortcutsList, (_, handler) => {
 		// @ts-expect-error
 		const keys = handler.keys.join('');
 		if (keys === sidebar.dashboard.shortcut) router.push('/admin/dashboard');
 		if (keys === sidebar.users.shortcut) router.push('/admin/users');
+		if (keys === sidebar.posts.shortcut) router.push('/admin/posts');
 		if (keys === sidebar.settings.shortcut) router.push('/admin/settings');
 	});
 
