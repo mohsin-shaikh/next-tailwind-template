@@ -9,12 +9,7 @@
 		"start": "next start",
 		"format:write": "prettier --write \"src/**/*.{css,js,json,jsx,ts,tsx}\"",
 		"format": "prettier \"src/**/*.{css,js,json,jsx,ts,tsx}\"",
-		"lint": "next lint",
-		"prebuild": "prisma format && prisma generate",
-		"predev": "prisma format && prisma generate",
-		"dbpush": "npm run predev && prisma db push",
-		"premigrate": "prisma db pull",
-		"migrate": "prisma migrate dev --name initial-migration --create-only"
+		"lint": "next lint"
 	},
 	"dependencies": {
 		"@headlessui/react": "^1.7.14",

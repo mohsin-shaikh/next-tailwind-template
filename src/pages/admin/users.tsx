@@ -1,8 +1,33 @@
-import { PlusIcon } from '@heroicons/react/24/solid';
-import { Button, Card, Title } from '@tremor/react';
+import { useState } from 'react';
 import Head from 'next/head';
+import { Card, Title } from '@tremor/react';
+import { useHotkeys } from 'react-hotkeys-hook';
+import { showSuccessToast, toastMessages } from 'components/Toast';
+import AddUser from 'components/Modal/AddUser';
+import AddButton from 'components/Modal/AddButton';
+import { shortcuts } from 'constants/Shortcuts';
+
+const addShortcutKey = Object.values(shortcuts.users.add.shortcut);
 
 const UsersPage = () => {
+	const [loading, setLoading] = useState(false)
+	const [show, setShow] = useState(false)
+	const [selected, setSelected] = useState({})
+	useHotkeys(addShortcutKey, () => setShow(true));
+
+	const onHide = () => setShow(false)
+	const onEdit = (selected) => {
+		setShow(true);
+		setSelected(selected);
+	}
+
+	const onSubmit = async (data) => {
+		setLoading(true)
+		console.log({ data })
+		showSuccessToast({ message: toastMessages.success })
+		setLoading(false)
+	}
+
 	return (
 		<>
 			<Head>
@@ -12,12 +37,25 @@ const UsersPage = () => {
 			<main>
 				<div className='flex justify-between'>
 					<Title>Users</Title>
-					<Button icon={PlusIcon}>Create</Button>
+					<AddButton
+						onClick={() => {
+							if (selected?.id) setSelected({});
+							setShow(true);
+						}}
+					/>
 				</div>
 				{/* Main section */}
 				<Card className="mt-6">
 					<div className="h-96" />
 				</Card>
+
+				<AddUser
+					onHide={onHide}
+					onSubmit={onSubmit}
+					loading={loading}
+					selected={selected}
+					show={show}
+				/>
 			</main>
 		</>
 	);

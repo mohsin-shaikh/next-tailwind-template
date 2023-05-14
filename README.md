@@ -2,12 +2,28 @@
 
 ## Getting Started
 
-First, run the development server:
+### Installation
+
+```bash
+npm i
+```
+
+### Run Dev Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+```
+
+## Database Migration
+
+### Create Migration & Migrate It
+
+```bash
+npx prisma migrate dev --name initial
+```
+
+### Generate Prisma Client
+
+```bash
+npx prisma generate
 ```
