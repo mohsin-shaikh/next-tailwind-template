@@ -6,6 +6,7 @@ export default function Document() {
 			<Head />
 			<body className="font-default flex h-full flex-col text-gray-600 antialiased">
 				<Main />
+				<div id="modal-root"></div>
 				<NextScript />
 			</body>
 		</Html>

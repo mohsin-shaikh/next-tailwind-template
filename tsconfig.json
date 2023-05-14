@@ -36,6 +36,9 @@
       "lib/*": [
         "./src/lib/*"
       ],
+      "utils/*": [
+        "./src/utils/*"
+      ],
     }
   },
   "include": [

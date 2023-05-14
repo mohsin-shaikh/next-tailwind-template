@@ -4,6 +4,7 @@ import { SessionProvider } from "next-auth/react"
 import * as Tooltip from '@radix-ui/react-tooltip';
 import Layout from 'components/Layout';
 import 'styles/globals.css';
+import { Toaster } from "react-hot-toast";
 
 // Use the <SessionProvider> to improve performance and allow components that call
 // `useSession()` anywhere in your application to access the `session` object.
@@ -25,6 +26,10 @@ export default function MyApp({ Component, pageProps: { session, ...pageProps } 
 			) : (
 				<Component {...pageProps} />
 			)}
+			<Toaster
+			// position="bottom-right"
+			// reverseOrder={false}
+			/>
 		</SessionProvider>
 	);
 }

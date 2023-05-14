@@ -1,6 +1,13 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { ArrowRightOnRectangleIcon, Bars3Icon, ChartPieIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import {
+	ArrowLeftOnRectangleIcon,
+	Bars3Icon,
+	ChartPieIcon,
+	Cog6ToothIcon,
+	UsersIcon,
+	XMarkIcon
+} from '@heroicons/react/24/solid';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { shortcuts } from 'constants/Shortcuts';
@@ -10,22 +17,33 @@ import { signOut, useSession } from 'next-auth/react';
 const { sidebar } = shortcuts;
 const sidebarShortcutsList = Object.values(sidebar).map((_) => _.shortcut);
 
-const links = [
+const topLinks = [
 	{
-		link: '/admin/dashboard',
-		activePath: '/admin/dashboard',
-		description: 'Overview page for all expenses',
-		name: 'Overview',
+		link: '/admin',
+		activePath: '/admin',
+		description: 'Dashboard page',
+		name: 'Dashboard',
 		Icon: ChartPieIcon,
 		shortcutText: sidebar.dashboard.shortcut,
 	},
 	{
 		link: '/admin/users',
 		activePath: '/admin/users',
-		description: 'Overview page for all expenses',
-		name: 'Ride',
-		Icon: ChartPieIcon,
+		description: 'Users Page',
+		name: 'Users',
+		Icon: UsersIcon,
 		shortcutText: sidebar.users.shortcut,
+	},
+];
+
+const bottomLinks = [
+	{
+		link: '/admin/settings',
+		activePath: '/admin/settings',
+		description: 'Settings page',
+		name: 'Settings',
+		Icon: Cog6ToothIcon,
+		shortcutText: sidebar.settings.shortcut,
 	},
 ];
 
@@ -47,6 +65,7 @@ const Sidebar = ({ className, overrideClassname, onHide, show, onToggle }: Sideb
 		const keys = handler.keys.join('');
 		if (keys === sidebar.dashboard.shortcut) router.push('/admin/dashboard');
 		if (keys === sidebar.users.shortcut) router.push('/admin/users');
+		if (keys === sidebar.settings.shortcut) router.push('/admin/settings');
 	});
 
 	return (
@@ -84,7 +103,7 @@ const Sidebar = ({ className, overrideClassname, onHide, show, onToggle }: Sideb
 						</button>
 					</div>
 					<div className="mb-2 mt-2 flex w-full flex-col items-center border-t border-zinc-800"></div>
-					{links.map((linkItem) => (
+					{topLinks.map((linkItem) => (
 						<span key={linkItem.name} onClick={onHide}>
 							<Tooltip.Root>
 								<Tooltip.Trigger asChild>
@@ -112,6 +131,32 @@ const Sidebar = ({ className, overrideClassname, onHide, show, onToggle }: Sideb
 					))}
 				</div>
 				<div>
+					{bottomLinks.map((linkItem) => (
+						<span key={linkItem.name} onClick={onHide}>
+							<Tooltip.Root>
+								<Tooltip.Trigger asChild>
+									<Link
+										title={linkItem.name}
+										href={linkItem.link}
+										className={`mt-2 flex h-[40px] items-center rounded-lg p-2 text-base tracking-wide text-white transition-all hover:bg-zinc-800 ${router.pathname === linkItem.activePath ? 'bg-zinc-800' : ''
+											} ${show ? 'w-[100%]' : ' w-[40px] justify-center'}`}
+									>
+										<span className="flex items-center">
+											<linkItem.Icon className="h-4 w-4" />
+											<span className={`ml-2 ${show ? 'visible' : 'hidden'}`}>{linkItem.name}</span>
+										</span>
+									</Link>
+								</Tooltip.Trigger>
+								<Tooltip.Content hideWhenDetached side="right" className="TooltipContent">
+									<TooltipText
+										className={`ml-4 ${show ? 'xs:hidden' : 'xs:block'}`}
+										text={`${linkItem.name}`}
+										shortcut={linkItem.shortcutText}
+									/>
+								</Tooltip.Content>
+							</Tooltip.Root>
+						</span>
+					))}
 					<button
 						className={`mt-2 flex h-[40px] w-full items-center rounded-lg p-2 text-base tracking-wide text-white hover:bg-zinc-800 ${show ? '' : 'justify-center'
 							}`}
@@ -119,7 +164,7 @@ const Sidebar = ({ className, overrideClassname, onHide, show, onToggle }: Sideb
 						title={'Sign out'}
 					>
 						<div className="flex items-center">
-							<ArrowRightOnRectangleIcon className="h-4 w-4" />
+							<ArrowLeftOnRectangleIcon className="h-4 w-4" />
 							<span className={`ml-2 ${show ? 'visible' : 'hidden'}`}>Sign out</span>
 						</div>
 					</button>
